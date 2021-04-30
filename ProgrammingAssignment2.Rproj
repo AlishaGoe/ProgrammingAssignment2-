@@ -1,13 +1,55 @@
-Version: 1.0
+## A pair of functions that cache the inverse of a matrix
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
-AlwaysSaveHistory: Default
+## Creates a special matrix object that can cache its inverse
+makeCacheMatrix <- function(x = matrix()) {
+ 
+  ## Initialize the inverse property 
+   inv <- NULL 
+   
+  ## Setting the Matrix
+  set <- function(y) {
+    x <<- y
+    inv <<- NULL
+  }
+  
+  ##getting the matrix
+  get <- function() 
+    
+    ##returning the matrix
+  {x}
+  
+  ##Setting the inverse of the matrix
+  setinverse <- function(inverse) 
+  {inv <<- inverse}
+  
+  ##Getting the inverse of the matrix
+  getinverse <- function() 
+    {inv}
+  
+  ##Return the list of methods
+  list(set=set, get=get, setinverse=setinverse, getinverse=getinverse)
+}
 
-EnableCodeIndexing: Yes
-UseSpacesForTab: Yes
-NumSpacesForTab: 2
-Encoding: UTF-8
+## Compute the inverse of the special matrix returned by "makeCacheMatrix"
+## above. If the inverse has already been calculated (and the matrix has not
+## changed), then the "cachesolve" should retrieve the inverse from the cache.
 
-RnwWeave: Sweave
-LaTeX: pdfLaTeX
+cacheSolve <- function(x, ...) {
+ 
+  ##Return the inverse matrix of 'x'
+   inv <- x$getInverse()
+  if(!is.null(inv)) {
+    message("getting cached data")
+    return(inv)
+  }
+   
+   ##Get inverse matrix
+  data <- x$get()
+  inv <- solve(data,...)
+  
+  ##Set the inverse to the object
+  x$setInverse(inv)
+  
+  ##return the matrix
+  inv
+}
